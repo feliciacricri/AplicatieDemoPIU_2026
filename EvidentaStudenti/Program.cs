@@ -1,0 +1,106 @@
+﻿using LibrarieModele;
+
+namespace EvidentaStudenti
+{
+    class Program
+    {
+        public static void Main()
+        {
+            List<Student> studenti = new List<Student>();
+            Student? studentNou = null;
+            string optiune;
+
+            do
+            {
+                Console.WriteLine("C. Citire informatii student de la tastatura");
+                Console.WriteLine("I. Afisarea informatiilor despre ultimul student introdus");
+                Console.WriteLine("A. Afisare studenti din lista");
+                Console.WriteLine("S. Salvare student in lista");
+                Console.WriteLine("X. Inchidere program");
+
+                Console.WriteLine("Alegeti o optiune");
+                optiune = Console.ReadLine()?.ToUpper() ?? string.Empty;
+
+                switch (optiune)
+                {
+                    case "C":
+                        studentNou = CitireStudentTastatura();
+                        break;
+
+                    case "I":
+                        AfisareStudent(studentNou);
+                        break;
+
+                    case "A":
+                        AfisareStudenti(studenti);
+                        break;
+
+                    case "S":
+                        studentNou.IdStudent = studenti.Count + 1;
+                        studenti.Add(studentNou);
+                        Console.WriteLine("Student salvat.");
+                        break;
+
+                    case "X":
+                        Console.WriteLine("Aplicatia va fi inchisa");
+                        return;
+
+                    default:
+                        Console.WriteLine("Optiune inexistenta");
+                        break;
+                }
+
+            } while (optiune.ToUpper() != "X");
+
+            Console.ReadKey();
+        }
+
+        public static Student CitireStudentTastatura()
+        {
+            Console.WriteLine("Introduceti numele");
+            string nume = Console.ReadLine();
+
+            Console.WriteLine("Introduceti prenumele");
+            string prenume = Console.ReadLine();
+
+            Student student = new Student(0, nume, prenume);
+
+            Console.WriteLine("Introduceti numarul de note:");
+            int.TryParse(Console.ReadLine(), out int nrNote);
+
+            int[] note = new int[nrNote];
+            for (int i = 0; i < nrNote; i++)
+            {
+                Console.Write($"Nota {i + 1}: ");
+                bool rezultat = int.TryParse(Console.ReadLine(), out int nota);
+                if (rezultat)
+                {
+                    note[i] = nota;
+                }
+                else
+                {
+                    Console.WriteLine("Nota invalida, se va seta la 0.");
+                    note[i] = 0;
+                }
+            }
+            student.SetNote(note);
+
+            return student;
+        }
+
+        public static void AfisareStudent(Student student)
+        {
+            Console.WriteLine(student.Info());
+        }
+
+        public static void AfisareStudenti(List<Student> studenti)
+        {
+            Console.WriteLine("Studentii sunt:");
+
+            foreach (Student student in studenti)
+            {
+                AfisareStudent(student);
+            }
+        }
+    }
+}
