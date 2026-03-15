@@ -1,4 +1,5 @@
 ﻿using LibrarieModele;
+using NivelStocareDate;
 
 namespace EvidentaStudenti
 {
@@ -6,15 +7,21 @@ namespace EvidentaStudenti
     {
         public static void Main()
         {
-            List<Student> studenti = new List<Student>();
+            AdministrareStudentiMemorie adminStudenti = new AdministrareStudentiMemorie();
             Student? studentNou = null;
             string optiune;
+
+            // acest apel ajuta la obtinerea numarului de studenti inca de la inceputul executiei
+            // astfel incat o eventuala adaugare sa atribuie un IdStudent corect noului student
+            List<Student> studenti = adminStudenti.GetStudenti();
+
 
             do
             {
                 Console.WriteLine("C. Citire informatii student de la tastatura");
                 Console.WriteLine("I. Afisarea informatiilor despre ultimul student introdus");
                 Console.WriteLine("A. Afisare studenti din lista");
+                Console.WriteLine("Z. Afisare studenti fara note din lista");
                 Console.WriteLine("S. Salvare student in lista");
                 Console.WriteLine("X. Inchidere program");
 
@@ -34,11 +41,20 @@ namespace EvidentaStudenti
                     case "A":
                         AfisareStudenti(studenti);
                         break;
+                    case "Z":
+                        AfisareStudentiFaraNote(studenti);
+                        break;
 
                     case "S":
-                        studentNou.IdStudent = studenti.Count + 1;
-                        studenti.Add(studentNou);
-                        Console.WriteLine("Student salvat.");
+                        if (studentNou != null)
+                        {
+                            adminStudenti.AddStudent(studentNou);
+                            Console.WriteLine("Student salvat.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Studentul nu a fost initializat");
+                        }
                         break;
 
                     case "X":
@@ -98,6 +114,19 @@ namespace EvidentaStudenti
             Console.WriteLine("Studentii sunt:");
 
             foreach (Student student in studenti)
+            {
+                AfisareStudent(student);
+            }
+        }
+
+        public static void AfisareStudentiFaraNote(List<Student> studenti)
+        {
+            Console.WriteLine("Studentii sunt:");
+
+            var studentiSelectati = studenti
+                                    .Where(student => student.GetNote().Length < 2);
+
+            foreach (Student student in studentiSelectati)
             {
                 AfisareStudent(student);
             }
