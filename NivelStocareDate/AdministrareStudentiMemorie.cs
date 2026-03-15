@@ -2,7 +2,7 @@
 
 namespace NivelStocareDate
 {
-    public class AdministrareStudentiMemorie
+    public class AdministrareStudentiMemorie : IStocareData
     {
         private List<Student> studenti;
 
