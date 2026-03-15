@@ -7,13 +7,12 @@ namespace EvidentaStudenti
     {
         public static void Main()
         {
-            AdministrareStudentiMemorie adminStudenti = new AdministrareStudentiMemorie();
+            IStocareData adminStudenti = StocareFactory.GetAdministratorStocare();
+
             Student? studentNou = null;
             string optiune;
 
-            // acest apel ajuta la obtinerea numarului de studenti inca de la inceputul executiei
-            // astfel incat o eventuala adaugare sa atribuie un IdStudent corect noului student
-            List<Student> studenti = adminStudenti.GetStudenti();
+            List<Student> studenti = new List<Student>();
 
 
             do
@@ -39,9 +38,11 @@ namespace EvidentaStudenti
                         break;
 
                     case "A":
+                        studenti = adminStudenti.GetStudenti();
                         AfisareStudenti(studenti);
                         break;
                     case "Z":
+                        studenti = adminStudenti.GetStudenti();
                         AfisareStudentiFaraNote(studenti);
                         break;
 
@@ -104,9 +105,9 @@ namespace EvidentaStudenti
             return student;
         }
 
-        public static void AfisareStudent(Student student)
+        public static void AfisareStudent(Student? student)
         {
-            Console.WriteLine(student.Info());
+            Console.WriteLine(student?.Info());
         }
 
         public static void AfisareStudenti(List<Student> studenti)
