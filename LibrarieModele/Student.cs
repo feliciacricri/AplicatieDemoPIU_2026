@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using LibrarieModele.Enums;
 
 namespace LibrarieModele
 {
@@ -15,6 +16,7 @@ namespace LibrarieModele
         private const int NUME = 1;
         private const int PRENUME = 2;
         private const int NOTE = 3;
+        private const int PROGRAM = 4;
 
 
         // data membră privată
@@ -24,6 +26,7 @@ namespace LibrarieModele
         public int IdStudent { get; set; } // identificator unic student
         public string Nume { get; set; }
         public string Prenume { get; set; }
+        public ProgramStudiu ProgramSTD { get; set; }
 
         public void SetNote(int[] _note)
         {
@@ -37,12 +40,17 @@ namespace LibrarieModele
             return (int[])note.Clone();
         }
 
+        // proprietate de tip read-only folosita pentru afisare in DataGrid
+        public string NoteAfisare => note != null ? string.Join(" ", note) : string.Empty;
+
         // constructor implicit
         public Student()
         {
             Nume = string.Empty;
             Prenume = string.Empty;
             note = new int[0];
+            // Optiunea implicita este Calculatoare
+            ProgramSTD = ProgramStudiu.Calculatoare;
         }
 
         // constructor cu parametri
@@ -52,6 +60,7 @@ namespace LibrarieModele
             Nume = nume;
             Prenume = prenume;
             note = new int[0];
+            ProgramSTD = ProgramStudiu.Calculatoare;
         }
 
         //constructor cu un singur parametru de tip string care reprezinta o linie dintr-un fisier text
@@ -64,6 +73,16 @@ namespace LibrarieModele
             this.Nume = dateFisier[NUME];
             this.Prenume = dateFisier[PRENUME];
             ExtrageNote(dateFisier[NOTE], SEPARATOR_SECUNDAR_FISIER);
+
+            // pentru compatibilitate cu fisierele existente, daca lipseste programul se seteaza valoare implicita
+            if (dateFisier.Length > PROGRAM && Enum.TryParse(dateFisier[PROGRAM], out ProgramStudiu program))
+            {
+                this.ProgramSTD = program;
+            }
+            else
+            {
+                this.ProgramSTD = ProgramStudiu.Calculatoare;
+            }
         }
 
 
@@ -75,7 +94,7 @@ namespace LibrarieModele
                 sNote = string.Join(SEPARATOR_SECUNDAR_FISIER.ToString(), note);
             }
 
-            string info = $"Id:{IdStudent} Nume:{Nume ?? "NECUNOSCUT"} Prenume:{Prenume ?? "NECUNOSCUT"}  Note: {sNote}";
+            string info = $"Id:{IdStudent} Nume:{Nume ?? "NECUNOSCUT"} Prenume:{Prenume ?? "NECUNOSCUT"}  Note: {sNote} Program: {ProgramSTD}";
             return info;
         }
 
@@ -87,12 +106,13 @@ namespace LibrarieModele
                 sNote = string.Join(SEPARATOR_SECUNDAR_FISIER.ToString(), note);
             }
 
-            string obiectStudentPentruFisier = string.Format("{1}{0}{2}{0}{3}{0}{4}",
+            string obiectStudentPentruFisier = string.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}",
                 SEPARATOR_PRINCIPAL_FISIER,
                 IdStudent.ToString(),
                 (Nume ?? " NECUNOSCUT "),
                 (Prenume ?? " NECUNOSCUT "),
-                sNote);
+                sNote,
+                ProgramSTD.ToString());
 
             return obiectStudentPentruFisier;
         }
