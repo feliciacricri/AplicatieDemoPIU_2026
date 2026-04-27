@@ -9,6 +9,7 @@ namespace NivelStocareDate
         List<Student> GetStudenti();
         Student GetStudent(int idStudent);
         Student GetStudent(string nume, string prenume);
+        List<Student> CautaStudentiDupaNume(string nume);
         bool UpdateStudent(Student s);
     }
 }

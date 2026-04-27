@@ -43,6 +43,14 @@ namespace NivelStocareDate
             );
         }
 
+        public List<Student> CautaStudentiDupaNume(string nume)
+        {
+            return studenti
+                .Where(student => student.Nume != null &&
+                                  student.Nume.Contains(nume, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
+
         public bool UpdateStudent(Student s)
         {
             throw new Exception("Optiunea UpdateStudent nu este implementata");

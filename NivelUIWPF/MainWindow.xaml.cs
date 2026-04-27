@@ -61,6 +61,26 @@ namespace NivelUIWPF
             ReseteazaErori();
         }
 
+        private void btnCauta_Click(object sender, RoutedEventArgs e)
+        {
+            string numeCautat = txtCautareNume.Text.Trim();
+            List<Student> studentiGasiti = adminStudenti.CautaStudentiDupaNume(numeCautat);
+            lblNrStudentiGasiti.Content = $"Numar studenti gasiti: {studentiGasiti.Count}";
+            dgStudentiGasiti.ItemsSource = studentiGasiti;
+        }
+
+        private void btnMeniuAdauga_Click(object sender, RoutedEventArgs e)
+        {
+            panelAdauga.Visibility = Visibility.Visible;
+            panelCauta.Visibility = Visibility.Collapsed;
+        }
+
+        private void btnMeniuCauta_Click(object sender, RoutedEventArgs e)
+        {
+            panelAdauga.Visibility = Visibility.Collapsed;
+            panelCauta.Visibility = Visibility.Visible;
+        }
+
         private ProgramStudiu GetProgramSelectat()
         {
             if (rbAutomatica.IsChecked == true)

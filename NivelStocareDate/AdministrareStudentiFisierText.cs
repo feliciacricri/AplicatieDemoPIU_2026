@@ -70,6 +70,28 @@ public class AdministrareStudentiFisierText : IStocareData
             return null;
         }
 
+        public List<Student> CautaStudentiDupaNume(string nume)
+        {
+            List<Student> studentiGasiti = new List<Student>();
+
+            using (StreamReader streamReader = new StreamReader(numeFisier))
+            {
+                string linieFisier;
+
+                while ((linieFisier = streamReader.ReadLine()) != null)
+                {
+                    Student student = new Student(linieFisier);
+                    if (student.Nume != null &&
+                        student.Nume.Contains(nume, StringComparison.OrdinalIgnoreCase))
+                    {
+                        studentiGasiti.Add(student);
+                    }
+                }
+            }
+
+            return studentiGasiti;
+        }
+
         public Student GetStudent(int idStudent)
         {
             // instructiunea 'using' va apela streamReader.Close()
