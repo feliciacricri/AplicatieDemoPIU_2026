@@ -15,11 +15,13 @@ namespace NivelUIWPF
         private const int LUNGIME_MAXIMA_NUME = 15;
 
         private IStocareData adminStudenti;
+        private readonly List<string> disciplineSelectate = new List<string>();
 
         public MainWindow()
         {
             InitializeComponent();
             adminStudenti = StocareFactory.GetAdministratorStocare();
+            lbFormaFinantare.ItemsSource = FormaFinantareEnum.Toate;
             AfiseazaStudenti();
         }
 
@@ -46,6 +48,8 @@ namespace NivelUIWPF
             student.Prenume = prenume;
             student.ExtrageNote(sirNote);
             student.ProgramSTD = GetProgramSelectat();
+            student.Discipline = new List<string>(disciplineSelectate);
+            student.FormaFinantare = lbFormaFinantare.SelectedItem as string ?? string.Empty;
 
             adminStudenti.AddStudent(student);
 
@@ -58,6 +62,13 @@ namespace NivelUIWPF
             txtPrenume.Clear();
             txtNote.Clear();
             rbCalculatoare.IsChecked = true;
+            cbPIU.IsChecked = false;
+            cbPCLP.IsChecked = false;
+            cbPOO.IsChecked = false;
+            cbDCE.IsChecked = false;
+            cbFizica.IsChecked = false;
+            disciplineSelectate.Clear();
+            lbFormaFinantare.SelectedIndex = -1;
             ReseteazaErori();
         }
 
@@ -87,9 +98,33 @@ namespace NivelUIWPF
                 return ProgramStudiu.Automatica;
             if (rbElectronica.IsChecked == true)
                 return ProgramStudiu.Electronica;
+            if (rbElectrotehnica.IsChecked == true)
+                return ProgramStudiu.Electrotehnica;
+            if (rbEnergetica.IsChecked == true)
+                return ProgramStudiu.Energetica;
+            if (rbInginerieEconomica.IsChecked == true)
+                return ProgramStudiu.InginerieEconomica;
 
             // Optiunea implicita este Calculatoare
             return ProgramStudiu.Calculatoare;
+        }
+
+        private void Disciplina_CheckedChanged(object sender, RoutedEventArgs e)
+        {
+            CheckBox cb = sender as CheckBox;
+            if (cb == null) return;
+
+            string disciplina = cb.Content?.ToString() ?? string.Empty;
+
+            if (cb.IsChecked == true)
+            {
+                if (!disciplineSelectate.Contains(disciplina))
+                    disciplineSelectate.Add(disciplina);
+            }
+            else
+            {
+                disciplineSelectate.Remove(disciplina);
+            }
         }
 
         private bool ValideazaDateStudent(string nume, string prenume, string sirNote)

@@ -41,6 +41,8 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
@@ -108,23 +110,81 @@
                            FontWeight="Bold"
                            Padding="0"
                            Margin="0,0,0,6"/>
-                    <StackPanel Orientation="Horizontal">
+                    <WrapPanel Orientation="Horizontal">
                         <RadioButton x:Name="rbCalculatoare"
                                      Content="Calculatoare"
                                      GroupName="ProgramStudiu"
                                      IsChecked="True"
-                                     Margin="0,0,20,0"/>
+                                     Margin="0,0,20,6"/>
                         <RadioButton x:Name="rbAutomatica"
                                      Content="Automatica"
                                      GroupName="ProgramStudiu"
-                                     Margin="0,0,20,0"/>
+                                     Margin="0,0,20,6"/>
                         <RadioButton x:Name="rbElectronica"
                                      Content="Electronica"
-                                     GroupName="ProgramStudiu"/>
-                    </StackPanel>
+                                     GroupName="ProgramStudiu"
+                                     Margin="0,0,20,6"/>
+                        <RadioButton x:Name="rbElectrotehnica"
+                                     Content="Electrotehnica"
+                                     GroupName="ProgramStudiu"
+                                     Margin="0,0,20,6"/>
+                        <RadioButton x:Name="rbEnergetica"
+                                     Content="Energetica"
+                                     GroupName="ProgramStudiu"
+                                     Margin="0,0,20,6"/>
+                        <RadioButton x:Name="rbInginerieEconomica"
+                                     Content="Inginerie Economica"
+                                     GroupName="ProgramStudiu"
+                                     Margin="0,0,20,6"/>
+                    </WrapPanel>
                 </StackPanel>
 
-                <StackPanel Grid.Row="4"
+                <StackPanel Grid.Row="4" Margin="0,0,0,10">
+                    <Label Content="Discipline"
+                           FontWeight="Bold"
+                           Padding="0"
+                           Margin="0,0,0,6"/>
+                    <WrapPanel Orientation="Horizontal">
+                        <CheckBox x:Name="cbPIU"
+                                  Content="PIU"
+                                  Margin="0,0,20,6"
+                                  Checked="Disciplina_CheckedChanged"
+                                  Unchecked="Disciplina_CheckedChanged"/>
+                        <CheckBox x:Name="cbPCLP"
+                                  Content="PCLP"
+                                  Margin="0,0,20,6"
+                                  Checked="Disciplina_CheckedChanged"
+                                  Unchecked="Disciplina_CheckedChanged"/>
+                        <CheckBox x:Name="cbPOO"
+                                  Content="POO"
+                                  Margin="0,0,20,6"
+                                  Checked="Disciplina_CheckedChanged"
+                                  Unchecked="Disciplina_CheckedChanged"/>
+                        <CheckBox x:Name="cbDCE"
+                                  Content="DCE"
+                                  Margin="0,0,20,6"
+                                  Checked="Disciplina_CheckedChanged"
+                                  Unchecked="Disciplina_CheckedChanged"/>
+                        <CheckBox x:Name="cbFizica"
+                                  Content="Fizica"
+                                  Margin="0,0,20,6"
+                                  Checked="Disciplina_CheckedChanged"
+                                  Unchecked="Disciplina_CheckedChanged"/>
+                    </WrapPanel>
+                </StackPanel>
+
+                <StackPanel Grid.Row="5" Margin="0,0,0,10">
+                    <Label Content="Forma de finantare"
+                           FontWeight="Bold"
+                           Padding="0"
+                           Margin="0,0,0,6"/>
+                    <ListBox x:Name="lbFormaFinantare"
+                             SelectionMode="Single"
+                             Height="70"
+                             FontSize="13"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="6"
                             Orientation="Horizontal"
                             Margin="0,10,0,10">
                     <Button x:Name="btnSalveaza"
@@ -141,12 +201,12 @@
                 </StackPanel>
 
                 <Label x:Name="lblNrStudenti"
-                       Grid.Row="5"
+                       Grid.Row="7"
                        FontWeight="Bold"
                        Margin="0,0,0,6"/>
 
                 <DataGrid x:Name="dgStudenti"
-                          Grid.Row="6"
+                          Grid.Row="8"
                           AutoGenerateColumns="False"
                           IsReadOnly="True"
                           CanUserAddRows="False"
@@ -161,6 +221,8 @@
                         <DataGridTextColumn Header="Prenume" Binding="{Binding Prenume}" Width="130"/>
                         <DataGridTextColumn Header="Note" Binding="{Binding NoteAfisare}" Width="*"/>
                         <DataGridTextColumn Header="Program" Binding="{Binding ProgramSTD}" Width="130"/>
+                        <DataGridTextColumn Header="Discipline" Binding="{Binding DisciplineAfisare}" Width="160"/>
+                        <DataGridTextColumn Header="Forma finantare" Binding="{Binding FormaFinantare}" Width="120"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
@@ -218,6 +280,8 @@
                         <DataGridTextColumn Header="Prenume" Binding="{Binding Prenume}" Width="130"/>
                         <DataGridTextColumn Header="Note" Binding="{Binding NoteAfisare}" Width="*"/>
                         <DataGridTextColumn Header="Program" Binding="{Binding ProgramSTD}" Width="130"/>
+                        <DataGridTextColumn Header="Discipline" Binding="{Binding DisciplineAfisare}" Width="160"/>
+                        <DataGridTextColumn Header="Forma finantare" Binding="{Binding FormaFinantare}" Width="120"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

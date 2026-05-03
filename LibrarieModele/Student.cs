@@ -8,6 +8,7 @@ namespace LibrarieModele
         //constante
         private const char SEPARATOR_PRINCIPAL_FISIER = ';';
         private const char SEPARATOR_SECUNDAR_FISIER = ' ';
+        private const char SEPARATOR_DISCIPLINE_FISIER = ',';
         private const bool SUCCES = true;
         public const int NOTA_MINIMA = 1;
         public const int NOTA_MAXIMA = 10;
@@ -17,6 +18,8 @@ namespace LibrarieModele
         private const int PRENUME = 2;
         private const int NOTE = 3;
         private const int PROGRAM = 4;
+        private const int DISCIPLINE = 5;
+        private const int FORMA_FINANTARE = 6;
 
 
         // data membră privată
@@ -27,6 +30,8 @@ namespace LibrarieModele
         public string Nume { get; set; }
         public string Prenume { get; set; }
         public ProgramStudiu ProgramSTD { get; set; }
+        public List<string> Discipline { get; set; }
+        public string FormaFinantare { get; set; }
 
         public void SetNote(int[] _note)
         {
@@ -43,6 +48,8 @@ namespace LibrarieModele
         // proprietate de tip read-only folosita pentru afisare in DataGrid
         public string NoteAfisare => note != null ? string.Join(" ", note) : string.Empty;
 
+        public string DisciplineAfisare => Discipline != null ? string.Join(", ", Discipline) : string.Empty;
+
         // constructor implicit
         public Student()
         {
@@ -51,6 +58,8 @@ namespace LibrarieModele
             note = new int[0];
             // Optiunea implicita este Calculatoare
             ProgramSTD = ProgramStudiu.Calculatoare;
+            Discipline = new List<string>();
+            FormaFinantare = string.Empty;
         }
 
         // constructor cu parametri
@@ -61,6 +70,8 @@ namespace LibrarieModele
             Prenume = prenume;
             note = new int[0];
             ProgramSTD = ProgramStudiu.Calculatoare;
+            Discipline = new List<string>();
+            FormaFinantare = string.Empty;
         }
 
         //constructor cu un singur parametru de tip string care reprezinta o linie dintr-un fisier text
@@ -83,6 +94,26 @@ namespace LibrarieModele
             {
                 this.ProgramSTD = ProgramStudiu.Calculatoare;
             }
+
+            if (dateFisier.Length > DISCIPLINE && !string.IsNullOrWhiteSpace(dateFisier[DISCIPLINE]))
+            {
+                this.Discipline = dateFisier[DISCIPLINE]
+                    .Split(SEPARATOR_DISCIPLINE_FISIER, StringSplitOptions.RemoveEmptyEntries)
+                    .ToList();
+            }
+            else
+            {
+                this.Discipline = new List<string>();
+            }
+
+            if (dateFisier.Length > FORMA_FINANTARE)
+            {
+                this.FormaFinantare = dateFisier[FORMA_FINANTARE];
+            }
+            else
+            {
+                this.FormaFinantare = string.Empty;
+            }
         }
 
 
@@ -94,7 +125,9 @@ namespace LibrarieModele
                 sNote = string.Join(SEPARATOR_SECUNDAR_FISIER.ToString(), note);
             }
 
-            string info = $"Id:{IdStudent} Nume:{Nume ?? "NECUNOSCUT"} Prenume:{Prenume ?? "NECUNOSCUT"}  Note: {sNote} Program: {ProgramSTD}";
+            string sDiscipline = Discipline != null ? string.Join(", ", Discipline) : string.Empty;
+
+            string info = $"Id:{IdStudent} Nume:{Nume ?? "NECUNOSCUT"} Prenume:{Prenume ?? "NECUNOSCUT"}  Note: {sNote} Program: {ProgramSTD} Discipline: {sDiscipline} Forma finantare: {FormaFinantare}";
             return info;
         }
 
@@ -106,13 +139,17 @@ namespace LibrarieModele
                 sNote = string.Join(SEPARATOR_SECUNDAR_FISIER.ToString(), note);
             }
 
-            string obiectStudentPentruFisier = string.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}",
+            string sDiscipline = Discipline != null ? string.Join(SEPARATOR_DISCIPLINE_FISIER.ToString(), Discipline) : string.Empty;
+
+            string obiectStudentPentruFisier = string.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}",
                 SEPARATOR_PRINCIPAL_FISIER,
                 IdStudent.ToString(),
                 (Nume ?? " NECUNOSCUT "),
                 (Prenume ?? " NECUNOSCUT "),
                 sNote,
-                ProgramSTD.ToString());
+                ProgramSTD.ToString(),
+                sDiscipline,
+                FormaFinantare ?? string.Empty);
 
             return obiectStudentPentruFisier;
         }
