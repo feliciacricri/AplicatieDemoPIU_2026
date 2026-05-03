@@ -56,6 +56,27 @@ namespace NivelUIWPF
             AfiseazaStudenti();
         }
 
+        private void btnActualizeaza_Click(object sender, RoutedEventArgs e)
+        {
+            Student studentSelectat = dgStudenti.SelectedItem as Student;
+
+            ReseteazaErori();
+            string nume = txtNume.Text.Trim();
+
+            if (string.IsNullOrEmpty(nume))
+            {
+                AfiseazaEroare(txtNume, tbErrNume, "Numele trebuie completat!");
+                return;
+            }
+
+            studentSelectat.Nume = nume;
+            adminStudenti.UpdateStudent(studentSelectat);
+
+            AfiseazaStudenti();
+            dgStudenti.SelectedItem = null;
+            btnActualizeaza.IsEnabled = false;
+        }
+
         private void btnReseteaza_Click(object sender, RoutedEventArgs e)
         {
             txtNume.Clear();
@@ -78,6 +99,15 @@ namespace NivelUIWPF
             List<Student> studentiGasiti = adminStudenti.CautaStudentiDupaNume(numeCautat);
             lblNrStudentiGasiti.Content = $"Numar studenti gasiti: {studentiGasiti.Count}";
             dgStudentiGasiti.ItemsSource = studentiGasiti;
+        }
+
+        private void dgStudenti_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Student student = dgStudenti.SelectedItem as Student;
+            if (student == null) return;
+
+            btnActualizeaza.IsEnabled = true;
+            txtNume.Text = student.Nume;
         }
 
         private void btnMeniuAdauga_Click(object sender, RoutedEventArgs e)

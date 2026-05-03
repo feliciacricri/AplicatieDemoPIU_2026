@@ -193,6 +193,13 @@
                             Height="32"
                             Margin="0,0,10,0"
                             Click="btnSalveaza_Click"/>
+                    <Button x:Name="btnActualizeaza"
+                            Content="Act_ualizeaza"
+                            Width="180"
+                            Height="32"
+                            Margin="0,0,10,0"
+                            IsEnabled="False"
+                            Click="btnActualizeaza_Click"/>
                     <Button x:Name="btnReseteaza"
                             Content="_Reset"
                             Width="180"
@@ -214,7 +221,8 @@
                           HeadersVisibility="Column"
                           GridLinesVisibility="All"
                           AlternatingRowBackground="#F5F5F5"
-                          RowHeight="26">
+                          RowHeight="26"
+                          SelectionChanged="dgStudenti_SelectionChanged">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Id" Binding="{Binding IdStudent}" Width="60"/>
                         <DataGridTextColumn Header="Nume" Binding="{Binding Nume}" Width="130"/>
