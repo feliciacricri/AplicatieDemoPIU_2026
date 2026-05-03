@@ -57,7 +57,8 @@
                              FontSize="14"
                              Padding="8,0"
                              VerticalContentAlignment="Center"
-                             MaxLength="15"/>
+                             MaxLength="15"
+                             Text="{Binding StudentCurent.Nume, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <TextBlock x:Name="tbErrNume"
                                Text=""
                                FontSize="11"
@@ -188,23 +189,33 @@
                             Orientation="Horizontal"
                             Margin="0,10,0,10">
                     <Button x:Name="btnSalveaza"
-                            Content="_Salveaza Student"
-                            Width="180"
+                            Content="_Salveaza"
+                            Width="100"
                             Height="32"
-                            Margin="0,0,10,0"
+                            Margin="0,0,8,0"
                             Click="btnSalveaza_Click"/>
                     <Button x:Name="btnActualizeaza"
                             Content="Act_ualizeaza"
-                            Width="180"
+                            Width="100"
                             Height="32"
-                            Margin="0,0,10,0"
+                            Margin="0,0,8,0"
                             IsEnabled="False"
                             Click="btnActualizeaza_Click"/>
                     <Button x:Name="btnReseteaza"
                             Content="_Reset"
-                            Width="180"
+                            Width="80"
                             Height="32"
                             Click="btnReseteaza_Click"/>
+                    <TextBlock x:Name="tbWarningActualizare"
+                               Text="Efectueaza click pe  butonul Actualizeaza dupa modificarea numelui pentru a actualiza si fisierul cu date!"
+                               Foreground="DarkOrange"
+                               FontStyle="Italic"
+                               FontSize="12"
+                               VerticalAlignment="Center"
+                               Margin="12,0,0,0"
+                               TextWrapping="Wrap"
+                               MaxWidth="290"
+                               Visibility="Collapsed"/>
                 </StackPanel>
 
                 <Label x:Name="lblNrStudenti"

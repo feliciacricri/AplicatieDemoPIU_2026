@@ -1,6 +1,8 @@
 ﻿using LibrarieModele;
 using LibrarieModele.Enums;
 using NivelStocareDate;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -10,16 +12,35 @@ namespace NivelUIWPF
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private const int LUNGIME_MAXIMA_NUME = 15;
 
         private IStocareData adminStudenti;
         private readonly List<string> disciplineSelectate = new List<string>();
+        private Student studentCurent;
+
+        public Student StudentCurent
+        {
+            get => studentCurent;
+            set
+            {
+                studentCurent = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = this;
             adminStudenti = StocareFactory.GetAdministratorStocare();
             lbFormaFinantare.ItemsSource = FormaFinantareEnum.Toate;
             AfiseazaStudenti();
@@ -58,27 +79,27 @@ namespace NivelUIWPF
 
         private void btnActualizeaza_Click(object sender, RoutedEventArgs e)
         {
-            Student studentSelectat = dgStudenti.SelectedItem as Student;
-
             ReseteazaErori();
-            string nume = txtNume.Text.Trim();
 
-            if (string.IsNullOrEmpty(nume))
+            if (string.IsNullOrEmpty(StudentCurent.Nume))
             {
                 AfiseazaEroare(txtNume, tbErrNume, "Numele trebuie completat!");
                 return;
             }
 
-            studentSelectat.Nume = nume;
-            adminStudenti.UpdateStudent(studentSelectat);
+            adminStudenti.UpdateStudent(StudentCurent);
 
             AfiseazaStudenti();
             dgStudenti.SelectedItem = null;
             btnActualizeaza.IsEnabled = false;
+            tbWarningActualizare.Visibility = Visibility.Collapsed;
         }
 
         private void btnReseteaza_Click(object sender, RoutedEventArgs e)
         {
+            dgStudenti.SelectedItem = null;
+            btnActualizeaza.IsEnabled = false;
+            tbWarningActualizare.Visibility = Visibility.Collapsed;
             txtNume.Clear();
             txtPrenume.Clear();
             txtNote.Clear();
@@ -103,11 +124,11 @@ namespace NivelUIWPF
 
         private void dgStudenti_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Student student = dgStudenti.SelectedItem as Student;
-            if (student == null) return;
+            StudentCurent = dgStudenti.SelectedItem as Student;
+            if (StudentCurent == null) return;
 
             btnActualizeaza.IsEnabled = true;
-            txtNume.Text = student.Nume;
+            tbWarningActualizare.Visibility = Visibility.Visible;
         }
 
         private void btnMeniuAdauga_Click(object sender, RoutedEventArgs e)
