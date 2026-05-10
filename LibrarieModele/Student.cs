@@ -45,10 +45,58 @@ namespace LibrarieModele
             return (int[])note.Clone();
         }
 
-        // proprietate de tip read-only folosita pentru afisare in DataGrid
-        public string NoteAfisare => note != null ? string.Join(" ", note) : string.Empty;
+        public string NoteAfisare
+        {
+            get => note != null ? string.Join(" ", note) : string.Empty;
+            set => ExtrageNote(value ?? string.Empty);
+        }
 
         public string DisciplineAfisare => Discipline != null ? string.Join(", ", Discipline) : string.Empty;
+
+        public bool ArePIU
+        {
+            get => Discipline?.Contains("PIU") ?? false;
+            set => SetDisciplina("PIU", value);
+        }
+
+        public bool ArePCLP
+        {
+            get => Discipline?.Contains("PCLP") ?? false;
+            set => SetDisciplina("PCLP", value);
+        }
+
+        public bool ArePOO
+        {
+            get => Discipline?.Contains("POO") ?? false;
+            set => SetDisciplina("POO", value);
+        }
+
+        public bool AreDCE
+        {
+            get => Discipline?.Contains("DCE") ?? false;
+            set => SetDisciplina("DCE", value);
+        }
+
+        public bool AreFizica
+        {
+            get => Discipline?.Contains("Fizica") ?? false;
+            set => SetDisciplina("Fizica", value);
+        }
+
+        private void SetDisciplina(string disciplina, bool bifat)
+        {
+            if (Discipline == null) Discipline = new List<string>();
+
+            if (bifat)
+            {
+                if (!Discipline.Contains(disciplina))
+                    Discipline.Add(disciplina);
+            }
+            else
+            {
+                Discipline.Remove(disciplina);
+            }
+        }
 
         // constructor implicit
         public Student()

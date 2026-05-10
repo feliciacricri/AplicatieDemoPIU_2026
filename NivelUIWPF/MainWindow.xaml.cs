@@ -17,7 +17,6 @@ namespace NivelUIWPF
         private const int LUNGIME_MAXIMA_NUME = 15;
 
         private IStocareData adminStudenti;
-        private readonly List<string> disciplineSelectate = new List<string>();
         private Student studentCurent;
 
         public Student StudentCurent
@@ -49,7 +48,6 @@ namespace NivelUIWPF
         private void AfiseazaStudenti()
         {
             List<Student> studenti = adminStudenti.GetStudenti();
-            lblNrStudenti.Content = $"Numar studenti: {studenti.Count}";
             dgStudenti.ItemsSource = studenti;
         }
 
@@ -69,7 +67,7 @@ namespace NivelUIWPF
             student.Prenume = prenume;
             student.ExtrageNote(sirNote);
             student.ProgramSTD = GetProgramSelectat();
-            student.Discipline = new List<string>(disciplineSelectate);
+            student.Discipline = GetDisciplineBifate();
             student.FormaFinantare = lbFormaFinantare.SelectedItem as string ?? string.Empty;
 
             adminStudenti.AddStudent(student);
@@ -109,7 +107,6 @@ namespace NivelUIWPF
             cbPOO.IsChecked = false;
             cbDCE.IsChecked = false;
             cbFizica.IsChecked = false;
-            disciplineSelectate.Clear();
             lbFormaFinantare.SelectedIndex = -1;
             ReseteazaErori();
         }
@@ -160,22 +157,15 @@ namespace NivelUIWPF
             return ProgramStudiu.Calculatoare;
         }
 
-        private void Disciplina_CheckedChanged(object sender, RoutedEventArgs e)
+        private List<string> GetDisciplineBifate()
         {
-            CheckBox cb = sender as CheckBox;
-            if (cb == null) return;
-
-            string disciplina = cb.Content?.ToString() ?? string.Empty;
-
-            if (cb.IsChecked == true)
-            {
-                if (!disciplineSelectate.Contains(disciplina))
-                    disciplineSelectate.Add(disciplina);
-            }
-            else
-            {
-                disciplineSelectate.Remove(disciplina);
-            }
+            List<string> lista = new List<string>();
+            if (cbPIU.IsChecked == true) lista.Add(cbPIU.Content.ToString());
+            if (cbPCLP.IsChecked == true) lista.Add(cbPCLP.Content.ToString());
+            if (cbPOO.IsChecked == true) lista.Add(cbPOO.Content.ToString());
+            if (cbDCE.IsChecked == true) lista.Add(cbDCE.Content.ToString());
+            if (cbFizica.IsChecked == true) lista.Add(cbFizica.Content.ToString());
+            return lista;
         }
 
         private bool ValideazaDateStudent(string nume, string prenume, string sirNote)
