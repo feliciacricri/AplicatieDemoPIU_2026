@@ -17,7 +17,7 @@ namespace NivelUIWPF
         private const int LUNGIME_MAXIMA_NUME = 15;
 
         private IStocareData adminStudenti;
-        private Student studentCurent;
+        private Student studentCurent = new Student();
 
         public Student StudentCurent
         {
@@ -65,6 +65,7 @@ namespace NivelUIWPF
             Student student = new Student();
             student.Nume = nume;
             student.Prenume = prenume;
+            student.Telefon = txtTelefon.Text.Trim();
             student.ExtrageNote(sirNote);
             student.ProgramSTD = GetProgramSelectat();
             student.Discipline = GetDisciplineBifate();
@@ -100,6 +101,7 @@ namespace NivelUIWPF
             tbWarningActualizare.Visibility = Visibility.Collapsed;
             txtNume.Clear();
             txtPrenume.Clear();
+            txtTelefon.Clear();
             txtNote.Clear();
             rbCalculatoare.IsChecked = true;
             cbPIU.IsChecked = false;

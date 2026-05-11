@@ -47,6 +47,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
@@ -93,6 +94,35 @@
                 </StackPanel>
 
                 <StackPanel Grid.Row="2" Margin="0,0,0,10">
+                    <Label Content="_Telefon"
+                           Target="{Binding ElementName=txtTelefon}"
+                           FontWeight="Bold"
+                           Padding="0"
+                           Margin="0,0,0,6"/>
+                    <TextBox x:Name="txtTelefon"
+                             Height="30"
+                             FontSize="14"
+                             Padding="8,0"
+                             VerticalContentAlignment="Center"
+                             MaxLength="10">
+                        <TextBox.Text>
+                            <Binding Path="StudentCurent.Telefon"
+                                     Mode="TwoWay"
+                                     UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <local:TelefonValidationRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    <TextBlock x:Name="tbErrTelefon"
+                               FontSize="11"
+                               Foreground="Red"
+                               Margin="0,4,0,0"
+                               Text="{Binding ElementName=txtTelefon, Path=(Validation.Errors)/ErrorContent}"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="3" Margin="0,0,0,10">
                     <Label Content="N_ote (separate prin spatiu)"
                            Target="{Binding ElementName=txtNote}"
                            FontWeight="Bold"
@@ -112,7 +142,7 @@
                                Visibility="Collapsed"/>
                 </StackPanel>
 
-                <StackPanel Grid.Row="3" Margin="0,0,0,10">
+                <StackPanel Grid.Row="4" Margin="0,0,0,10">
                     <Label Content="Program de studiu"
                            FontWeight="Bold"
                            Padding="0"
@@ -151,7 +181,7 @@
                     </WrapPanel>
                 </StackPanel>
 
-                <StackPanel Grid.Row="4" Margin="0,0,0,10">
+                <StackPanel Grid.Row="5" Margin="0,0,0,10">
                     <Label Content="Discipline"
                            FontWeight="Bold"
                            Padding="0"
@@ -180,7 +210,7 @@
                     </WrapPanel>
                 </StackPanel>
 
-                <StackPanel Grid.Row="5" Margin="0,0,0,10">
+                <StackPanel Grid.Row="6" Margin="0,0,0,10">
                     <Label Content="Forma de finantare"
                            FontWeight="Bold"
                            Padding="0"
@@ -192,7 +222,7 @@
                              SelectedItem="{Binding StudentCurent.FormaFinantare, Mode=TwoWay}"/>
                 </StackPanel>
 
-                <StackPanel Grid.Row="6"
+                <StackPanel Grid.Row="7"
                             Orientation="Horizontal"
                             Margin="0,10,0,10">
                     <Button x:Name="btnSalveaza"
@@ -226,13 +256,13 @@
                 </StackPanel>
 
                 <Label x:Name="lblNrStudenti"
-                    Grid.Row="7"
+                    Grid.Row="8"
                     Content="{Binding ElementName=dgStudenti, Path=Items.Count, StringFormat='Numar studenti: {0}'}"
                     FontWeight="Bold"
                     Margin="0,0,0,6"/>
 
                 <DataGrid x:Name="dgStudenti"
-                          Grid.Row="8"
+                          Grid.Row="9"
                           AutoGenerateColumns="False"
                           IsReadOnly="True"
                           CanUserAddRows="False"
@@ -246,6 +276,7 @@
                         <DataGridTextColumn Header="Id" Binding="{Binding IdStudent}" Width="60"/>
                         <DataGridTextColumn Header="Nume" Binding="{Binding Nume}" Width="130"/>
                         <DataGridTextColumn Header="Prenume" Binding="{Binding Prenume}" Width="130"/>
+                        <DataGridTextColumn Header="Telefon" Binding="{Binding Telefon}" Width="110"/>
                         <DataGridTextColumn Header="Note" Binding="{Binding NoteAfisare}" Width="*"/>
                         <DataGridTextColumn Header="Program" Binding="{Binding ProgramSTD}" Width="130"/>
                         <DataGridTextColumn Header="Discipline" Binding="{Binding DisciplineAfisare}" Width="160"/>
@@ -305,6 +336,7 @@
                         <DataGridTextColumn Header="Id" Binding="{Binding IdStudent}" Width="60"/>
                         <DataGridTextColumn Header="Nume" Binding="{Binding Nume}" Width="130"/>
                         <DataGridTextColumn Header="Prenume" Binding="{Binding Prenume}" Width="130"/>
+                        <DataGridTextColumn Header="Telefon" Binding="{Binding Telefon}" Width="110"/>
                         <DataGridTextColumn Header="Note" Binding="{Binding NoteAfisare}" Width="*"/>
                         <DataGridTextColumn Header="Program" Binding="{Binding ProgramSTD}" Width="130"/>
                         <DataGridTextColumn Header="Discipline" Binding="{Binding DisciplineAfisare}" Width="160"/>

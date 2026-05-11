@@ -20,6 +20,7 @@ namespace LibrarieModele
         private const int PROGRAM = 4;
         private const int DISCIPLINE = 5;
         private const int FORMA_FINANTARE = 6;
+        private const int TELEFON = 7;
 
 
         // data membră privată
@@ -29,6 +30,7 @@ namespace LibrarieModele
         public int IdStudent { get; set; } // identificator unic student
         public string Nume { get; set; }
         public string Prenume { get; set; }
+        public string Telefon { get; set; }
         public ProgramStudiu ProgramSTD { get; set; }
         public List<string> Discipline { get; set; }
         public string FormaFinantare { get; set; }
@@ -103,6 +105,7 @@ namespace LibrarieModele
         {
             Nume = string.Empty;
             Prenume = string.Empty;
+            Telefon = string.Empty;
             note = new int[0];
             // Optiunea implicita este Calculatoare
             ProgramSTD = ProgramStudiu.Calculatoare;
@@ -116,6 +119,7 @@ namespace LibrarieModele
             IdStudent = idStudent;
             Nume = nume;
             Prenume = prenume;
+            Telefon = string.Empty;
             note = new int[0];
             ProgramSTD = ProgramStudiu.Calculatoare;
             Discipline = new List<string>();
@@ -162,6 +166,15 @@ namespace LibrarieModele
             {
                 this.FormaFinantare = string.Empty;
             }
+
+            if (dateFisier.Length > TELEFON)
+            {
+                this.Telefon = dateFisier[TELEFON];
+            }
+            else
+            {
+                this.Telefon = string.Empty;
+            }
         }
 
 
@@ -189,7 +202,7 @@ namespace LibrarieModele
 
             string sDiscipline = Discipline != null ? string.Join(SEPARATOR_DISCIPLINE_FISIER.ToString(), Discipline) : string.Empty;
 
-            string obiectStudentPentruFisier = string.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}",
+            string obiectStudentPentruFisier = string.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}{8}",
                 SEPARATOR_PRINCIPAL_FISIER,
                 IdStudent.ToString(),
                 (Nume ?? " NECUNOSCUT "),
@@ -197,7 +210,8 @@ namespace LibrarieModele
                 sNote,
                 ProgramSTD.ToString(),
                 sDiscipline,
-                FormaFinantare ?? string.Empty);
+                FormaFinantare ?? string.Empty,
+                Telefon ?? string.Empty);
 
             return obiectStudentPentruFisier;
         }
