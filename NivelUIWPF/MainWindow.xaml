@@ -62,13 +62,12 @@
                              Padding="8,0"
                              VerticalContentAlignment="Center"
                              MaxLength="15"
-                             Text="{Binding StudentCurent.Nume, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                             Text="{Binding StudentCurent.Nume, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                     <TextBlock x:Name="tbErrNume"
-                               Text=""
                                FontSize="11"
                                Foreground="Red"
                                Margin="0,4,0,0"
-                               Visibility="Collapsed"/>
+                               Text="{Binding ElementName=txtNume, Path=(Validation.Errors)/ErrorContent}"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="1" Margin="0,0,0,10">
@@ -83,13 +82,12 @@
                              Padding="8,0"
                              VerticalContentAlignment="Center"
                              MaxLength="15"
-                             Text="{Binding StudentCurent.Prenume, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                             Text="{Binding StudentCurent.Prenume, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                     <TextBlock x:Name="tbErrPrenume"
-                               Text=""
                                FontSize="11"
                                Foreground="Red"
                                Margin="0,4,0,0"
-                               Visibility="Collapsed"/>
+                               Text="{Binding ElementName=txtPrenume, Path=(Validation.Errors)/ErrorContent}"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="2" Margin="0,0,0,10">
@@ -103,13 +101,12 @@
                              FontSize="14"
                              Padding="8,0"
                              VerticalContentAlignment="Center"
-                             Text="{Binding StudentCurent.NoteAfisare, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                             Text="{Binding StudentCurent.NoteAfisare, Mode=TwoWay, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}"/>
                     <TextBlock x:Name="tbErrNote"
-                               Text=""
                                FontSize="11"
                                Foreground="Red"
                                Margin="0,4,0,0"
-                               Visibility="Collapsed"/>
+                               Text="{Binding ElementName=txtNote, Path=(Validation.Errors)/ErrorContent}"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="3" Margin="0,0,0,10">
@@ -200,6 +197,7 @@
                             Width="100"
                             Height="32"
                             Margin="0,0,8,0"
+                            IsEnabled="{Binding StudentCurent.EsteValid}"
                             Click="btnSalveaza_Click"/>
                     <Button x:Name="btnActualizeaza"
                             Content="Act_ualizeaza"

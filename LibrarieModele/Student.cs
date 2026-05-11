@@ -1,9 +1,11 @@
 ﻿using System.Collections;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using LibrarieModele.Enums;
 
 namespace LibrarieModele
 {
-    public class Student
+    public class Student : INotifyPropertyChanged, IDataErrorInfo
     {
         //constante
         private const char SEPARATOR_PRINCIPAL_FISIER = ';';
@@ -12,6 +14,7 @@ namespace LibrarieModele
         private const bool SUCCES = true;
         public const int NOTA_MINIMA = 1;
         public const int NOTA_MAXIMA = 10;
+        public const int LUNGIME_MAXIMA_NUME = 15;
 
         private const int ID = 0;
         private const int NUME = 1;
@@ -24,14 +27,69 @@ namespace LibrarieModele
 
         // data membră privată
         private int[] note;
+        private string nume;
+        private string prenume;
 
         // proprietăți auto-implemented
         public int IdStudent { get; set; } // identificator unic student
-        public string Nume { get; set; }
-        public string Prenume { get; set; }
+
+        public string Nume
+        {
+            get => nume;
+            set { nume = value; OnPropertyChanged(); }
+        }
+
+        public string Prenume
+        {
+            get => prenume;
+            set { prenume = value; OnPropertyChanged(); }
+        }
+
         public ProgramStudiu ProgramSTD { get; set; }
         public List<string> Discipline { get; set; }
         public string FormaFinantare { get; set; }
+
+        // INotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(EsteValid)));
+        }
+
+        // IDataErrorInfo
+        // Eroare la nivel de obiect (rar folosita)
+        public string Error => null;
+
+        // Eroare la nivel de proprietate
+        public string this[string columnName]
+        {
+            get
+            {
+                switch (columnName)
+                {
+                    case nameof(Nume):
+                        if (string.IsNullOrWhiteSpace(Nume))
+                            return "Numele trebuie completat!";
+                        if (Nume.Length > LUNGIME_MAXIMA_NUME)
+                            return $"Numele nu poate depasi {LUNGIME_MAXIMA_NUME} caractere!";
+                        break;
+
+                    case nameof(Prenume):
+                        if (string.IsNullOrWhiteSpace(Prenume))
+                            return "Prenumele trebuie completat!";
+                        if (Prenume.Length > LUNGIME_MAXIMA_NUME)
+                            return $"Prenumele nu poate depasi {LUNGIME_MAXIMA_NUME} caractere!";
+                        break;
+                }
+                return null;
+            }
+        }
+
+        public bool EsteValid =>
+            string.IsNullOrEmpty(this[nameof(Nume)]) &&
+            string.IsNullOrEmpty(this[nameof(Prenume)]);
 
         public void SetNote(int[] _note)
         {
@@ -48,7 +106,11 @@ namespace LibrarieModele
         public string NoteAfisare
         {
             get => note != null ? string.Join(" ", note) : string.Empty;
-            set => ExtrageNote(value ?? string.Empty);
+            set
+            {
+                ExtrageNote(value ?? string.Empty);
+                OnPropertyChanged();
+            }
         }
 
         public string DisciplineAfisare => Discipline != null ? string.Join(", ", Discipline) : string.Empty;
