@@ -188,7 +188,8 @@
                     <ListBox x:Name="lbFormaFinantare"
                              SelectionMode="Single"
                              Height="70"
-                             FontSize="13"/>
+                             FontSize="13"
+                             SelectedItem="{Binding StudentCurent.FormaFinantare, Mode=TwoWay}"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="6"
