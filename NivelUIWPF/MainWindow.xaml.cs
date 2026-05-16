@@ -13,17 +13,5 @@ namespace NivelUIWPF
             InitializeComponent();
             DataContext = new MainViewModel();
         }
-
-        private void btnMeniuAdauga_Click(object sender, RoutedEventArgs e)
-        {
-            panelAdauga.Visibility = Visibility.Visible;
-            panelCauta.Visibility = Visibility.Collapsed;
-        }
-
-        private void btnMeniuCauta_Click(object sender, RoutedEventArgs e)
-        {
-            panelAdauga.Visibility = Visibility.Collapsed;
-            panelCauta.Visibility = Visibility.Visible;
-        }
     }
 }

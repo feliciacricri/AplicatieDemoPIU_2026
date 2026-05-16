@@ -16,6 +16,7 @@ namespace NivelUIWPF.ViewModels
         private Student studentSelectat;
         private string numeCautat = string.Empty;
         private string mesajNrStudentiGasiti = string.Empty;
+        private bool modAdaugare = true;
 
         public MainViewModel()
         {
@@ -28,6 +29,8 @@ namespace NivelUIWPF.ViewModels
             ActualizeazaCommand = new RelayCommand(Actualizeaza, PoateActualiza);
             ReseteazaCommand = new RelayCommand(Reseteaza);
             CautaCommand = new RelayCommand(Cauta);
+            MeniuAdaugaCommand = new RelayCommand(() => ModAdaugare = true);
+            MeniuCautaCommand = new RelayCommand(() => ModAdaugare = false);
         }
 
         public ObservableCollection<Student> Studenti { get; }
@@ -38,6 +41,21 @@ namespace NivelUIWPF.ViewModels
         public ICommand ActualizeazaCommand { get; }
         public ICommand ReseteazaCommand { get; }
         public ICommand CautaCommand { get; }
+        public ICommand MeniuAdaugaCommand { get; }
+        public ICommand MeniuCautaCommand { get; }
+
+        public bool ModAdaugare
+        {
+            get => modAdaugare;
+            set
+            {
+                modAdaugare = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(ModCautare));
+            }
+        }
+
+        public bool ModCautare => !modAdaugare;
 
         public Student StudentCurent
         {

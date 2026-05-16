@@ -29,6 +29,8 @@ namespace LibrarieModele
         private int[] note;
         private string nume;
         private string prenume;
+        private ProgramStudiu programSTD;
+        private string formaFinantare;
 
         // proprietăți auto-implemented
         public int IdStudent { get; set; } // identificator unic student
@@ -45,9 +47,19 @@ namespace LibrarieModele
             set { prenume = value; OnPropertyChanged(); }
         }
 
-        public ProgramStudiu ProgramSTD { get; set; }
+        public ProgramStudiu ProgramSTD
+        {
+            get => programSTD;
+            set { programSTD = value; OnPropertyChanged(); }
+        }
+
         public List<string> Discipline { get; set; }
-        public string FormaFinantare { get; set; }
+
+        public string FormaFinantare
+        {
+            get => formaFinantare;
+            set { formaFinantare = value; OnPropertyChanged(); }
+        }
 
         // INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
@@ -118,31 +130,31 @@ namespace LibrarieModele
         public bool ArePIU
         {
             get => Discipline?.Contains("PIU") ?? false;
-            set => SetDisciplina("PIU", value);
+            set { SetDisciplina("PIU", value); OnPropertyChanged(); }
         }
 
         public bool ArePCLP
         {
             get => Discipline?.Contains("PCLP") ?? false;
-            set => SetDisciplina("PCLP", value);
+            set { SetDisciplina("PCLP", value); OnPropertyChanged(); }
         }
 
         public bool ArePOO
         {
             get => Discipline?.Contains("POO") ?? false;
-            set => SetDisciplina("POO", value);
+            set { SetDisciplina("POO", value); OnPropertyChanged(); }
         }
 
         public bool AreDCE
         {
             get => Discipline?.Contains("DCE") ?? false;
-            set => SetDisciplina("DCE", value);
+            set { SetDisciplina("DCE", value); OnPropertyChanged(); }
         }
 
         public bool AreFizica
         {
             get => Discipline?.Contains("Fizica") ?? false;
-            set => SetDisciplina("Fizica", value);
+            set { SetDisciplina("Fizica", value); OnPropertyChanged(); }
         }
 
         private void SetDisciplina(string disciplina, bool bifat)
@@ -158,6 +170,8 @@ namespace LibrarieModele
             {
                 Discipline.Remove(disciplina);
             }
+
+            OnPropertyChanged(nameof(DisciplineAfisare));
         }
 
         // constructor implicit
