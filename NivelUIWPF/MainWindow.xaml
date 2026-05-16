@@ -9,6 +9,7 @@
         Title="Evidenta Studenti" Height="680" Width="900">
     <Window.Resources>
         <local:EnumToBooleanConverter x:Key="enumToBool"/>
+        <BooleanToVisibilityConverter x:Key="boolToVis"/>
     </Window.Resources>
     <Grid Margin="20">
         <Grid.ColumnDefinitions>
@@ -186,6 +187,7 @@
                              SelectionMode="Single"
                              Height="70"
                              FontSize="13"
+                             ItemsSource="{Binding FormeFinantare}"
                              SelectedItem="{Binding StudentCurent.FormaFinantare, Mode=TwoWay}"/>
                 </StackPanel>
 
@@ -197,20 +199,18 @@
                             Width="100"
                             Height="32"
                             Margin="0,0,8,0"
-                            IsEnabled="{Binding StudentCurent.EsteValid}"
-                            Click="btnSalveaza_Click"/>
+                            Command="{Binding SalveazaCommand}"/>
                     <Button x:Name="btnActualizeaza"
                             Content="Act_ualizeaza"
                             Width="100"
                             Height="32"
                             Margin="0,0,8,0"
-                            IsEnabled="False"
-                            Click="btnActualizeaza_Click"/>
+                            Command="{Binding ActualizeazaCommand}"/>
                     <Button x:Name="btnReseteaza"
                             Content="_Reset"
                             Width="80"
                             Height="32"
-                            Click="btnReseteaza_Click"/>
+                            Command="{Binding ReseteazaCommand}"/>
                     <TextBlock x:Name="tbWarningActualizare"
                                Text="Efectueaza click pe  butonul Actualizeaza dupa modificarea numelui pentru a actualiza si fisierul cu date!"
                                Foreground="DarkOrange"
@@ -220,7 +220,7 @@
                                Margin="12,0,0,0"
                                TextWrapping="Wrap"
                                MaxWidth="290"
-                               Visibility="Collapsed"/>
+                               Visibility="{Binding EsteStudentSelectat, Converter={StaticResource boolToVis}}"/>
                 </StackPanel>
 
                 <Label x:Name="lblNrStudenti"
@@ -239,7 +239,8 @@
                           GridLinesVisibility="All"
                           AlternatingRowBackground="#F5F5F5"
                           RowHeight="26"
-                          SelectionChanged="dgStudenti_SelectionChanged">
+                          ItemsSource="{Binding Studenti}"
+                          SelectedItem="{Binding StudentSelectat, Mode=TwoWay}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Id" Binding="{Binding IdStudent}" Width="60"/>
                         <DataGridTextColumn Header="Nume" Binding="{Binding Nume}" Width="130"/>
@@ -272,7 +273,8 @@
                              FontSize="14"
                              Padding="8,0"
                              VerticalContentAlignment="Center"
-                             MaxLength="15"/>
+                             MaxLength="15"
+                             Text="{Binding NumeCautat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
 
                 <Button x:Name="btnCauta"
@@ -282,12 +284,13 @@
                         Width="180"
                         Height="32"
                         Margin="0,0,0,10"
-                        Click="btnCauta_Click"/>
+                        Command="{Binding CautaCommand}"/>
 
                 <Label x:Name="lblNrStudentiGasiti"
                        Grid.Row="2"
                        FontWeight="Bold"
-                       Margin="0,0,0,6"/>
+                       Margin="0,0,0,6"
+                       Content="{Binding MesajNrStudentiGasiti}"/>
 
                 <DataGrid x:Name="dgStudentiGasiti"
                           Grid.Row="3"
@@ -298,7 +301,8 @@
                           HeadersVisibility="Column"
                           GridLinesVisibility="All"
                           AlternatingRowBackground="#F5F5F5"
-                          RowHeight="26">
+                          RowHeight="26"
+                          ItemsSource="{Binding StudentiGasiti}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Id" Binding="{Binding IdStudent}" Width="60"/>
                         <DataGridTextColumn Header="Nume" Binding="{Binding Nume}" Width="130"/>
