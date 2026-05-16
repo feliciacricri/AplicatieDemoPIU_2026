@@ -4,8 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NivelUIWPF"
+        xmlns:enums="clr-namespace:LibrarieModele.Enums;assembly=LibrarieModele"
         mc:Ignorable="d"
         Title="Evidenta Studenti" Height="680" Width="900">
+    <Window.Resources>
+        <local:EnumToBooleanConverter x:Key="enumToBool"/>
+    </Window.Resources>
     <Grid Margin="20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="180"/>
@@ -117,27 +121,32 @@
                         <RadioButton x:Name="rbCalculatoare"
                                      Content="Calculatoare"
                                      GroupName="ProgramStudiu"
-                                     IsChecked="True"
+                                     IsChecked="{Binding StudentCurent.ProgramSTD, Mode=TwoWay, Converter={StaticResource enumToBool}, ConverterParameter={x:Static enums:ProgramStudiu.Calculatoare}}"
                                      Margin="0,0,20,6"/>
                         <RadioButton x:Name="rbAutomatica"
                                      Content="Automatica"
                                      GroupName="ProgramStudiu"
+                                     IsChecked="{Binding StudentCurent.ProgramSTD, Mode=TwoWay, Converter={StaticResource enumToBool}, ConverterParameter={x:Static enums:ProgramStudiu.Automatica}}"
                                      Margin="0,0,20,6"/>
                         <RadioButton x:Name="rbElectronica"
                                      Content="Electronica"
                                      GroupName="ProgramStudiu"
+                                     IsChecked="{Binding StudentCurent.ProgramSTD, Mode=TwoWay, Converter={StaticResource enumToBool}, ConverterParameter={x:Static enums:ProgramStudiu.Electronica}}"
                                      Margin="0,0,20,6"/>
                         <RadioButton x:Name="rbElectrotehnica"
                                      Content="Electrotehnica"
                                      GroupName="ProgramStudiu"
+                                     IsChecked="{Binding StudentCurent.ProgramSTD, Mode=TwoWay, Converter={StaticResource enumToBool}, ConverterParameter={x:Static enums:ProgramStudiu.Electrotehnica}}"
                                      Margin="0,0,20,6"/>
                         <RadioButton x:Name="rbEnergetica"
                                      Content="Energetica"
                                      GroupName="ProgramStudiu"
+                                     IsChecked="{Binding StudentCurent.ProgramSTD, Mode=TwoWay, Converter={StaticResource enumToBool}, ConverterParameter={x:Static enums:ProgramStudiu.Energetica}}"
                                      Margin="0,0,20,6"/>
                         <RadioButton x:Name="rbInginerieEconomica"
                                      Content="Inginerie Economica"
                                      GroupName="ProgramStudiu"
+                                     IsChecked="{Binding StudentCurent.ProgramSTD, Mode=TwoWay, Converter={StaticResource enumToBool}, ConverterParameter={x:Static enums:ProgramStudiu.InginerieEconomica}}"
                                      Margin="0,0,20,6"/>
                     </WrapPanel>
                 </StackPanel>
